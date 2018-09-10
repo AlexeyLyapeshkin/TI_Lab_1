@@ -2,20 +2,39 @@ import tkinter
 import Files
 import PIL.Image
 import PIL.ImageTk
+from Vigenere import Vigenere
 from RailWay import RailRoadHedge
 
 
-def cipher(key):
+def cipherRail(key):
     key = int(key)
     kek = RailRoadHedge()
     text = Files.ReadFromFile()
     Files.WriteInFile(kek.Encode(key, kek.NormilizeText(text)))
 
 
-def Dechipher(key):
+def DechipherRail(key):
     kek = RailRoadHedge()
     text = Files.ReadFromFile()
     Files.WriteInFile(kek.Decode(key, text))
+
+def cipherVig(key):
+    #key = int(key)
+    key = str(key)
+    kek = Vigenere()
+    text = Files.ReadFromFile()
+    print('text:',kek.NormilizeText(text),'key:',key)
+    #a = input()
+
+    Files.WriteInFile(kek.encrypt(key, kek.NormilizeText(text)))
+
+def dechipherVig(key):
+    key = str(key)
+    kek = Vigenere()
+    text = Files.ReadFromFile()
+    Files.WriteInFile(kek.decrypt(key, kek.NormilizeText(text)))
+
+
 
 def MakeImage(path):
 
@@ -31,13 +50,14 @@ def MakeMainWindow():
     var = tkinter.IntVar()
     rbutton1 = tkinter.Radiobutton(Main_Window, text=b' Rail Road Hedge. ', height=1, font='20', variable=var, value=1)
     rbutton1.place(x = 600, y = 600)
+    #print(var.get())
     rbutton2 = tkinter.Radiobutton(Main_Window, text=b' Chiffre de Vigenere. ',height=1, font='20', variable=var, value=2)
     rbutton2.place(x = 600, y = 650)
     rbutton3 = tkinter.Radiobutton(Main_Window, text=b' Playfair cipher. ',height=1, font='20' , variable=var, value=3)
     rbutton3.place(x = 600, y = 700)
 
 
-    Button_Main = tkinter.Button(Main_Window, text='Lets go!',bg = 'Dodger Blue', fg = 'White', command = (lambda : NewWindow(Main_Window,rbutton3,rbutton2,rbutton1,label,Button_Main)))
+    Button_Main = tkinter.Button(Main_Window, text='Lets go!',bg = 'Dodger Blue', fg = 'White', command = (lambda : NewWindow(Main_Window,rbutton3,rbutton2,rbutton1,label,Button_Main, var)))
     Button_Main.place(x=730, y=760)
 
     # Images
@@ -50,12 +70,25 @@ def MakeMainWindow():
     label.place(x=650, y=280)
 
 
+def Choose(count, entry, m):
+    count = int(count)
+
+    if count == 1 and m == 'c':
+        cipherRail(entry)
+    if count == 1 and m == 'd':
+        DechipherRail(entry)
+    if count == 2 and m == 'c':
+        cipherVig(entry)
+    if count == 2 and m == 'd':
+        dechipherVig(entry)
+    if count == 3:
+        return 0;
 
 
 
 
 
-def NewWindow(window,rb3,rb2,rb1,img,butt):
+def NewWindow(window,rb3,rb2,rb1,img,butt,var):
 
     def Hide(lbl1,ent1,buttm,buttb,buttd):
         lbl1.place_forget()
@@ -65,8 +98,7 @@ def NewWindow(window,rb3,rb2,rb1,img,butt):
         buttd.place_forget()
         MakeMainWindow()
 
-
-
+    print(var.get())
 
     # clear window
     rb1.place_forget()
@@ -89,11 +121,11 @@ def NewWindow(window,rb3,rb2,rb1,img,butt):
     kek = Entry_1.get()
     print(kek)
      # Buttons
-    Button_Main = tkinter.Button(window, text='Lets chiphre!',bg = 'Dodger Blue', fg = 'White', width = 14, command = (lambda : cipher(Entry_1.get())))
+    Button_Main = tkinter.Button(window, text='Lets chiphre!',bg = 'Dodger Blue', fg = 'White', width = 14, command = (lambda : Choose(var.get(),Entry_1.get(),'c')))
     Button_Main.place(x=635, y=700)
     print('kek')
 
-    Button_Dechipher = tkinter.Button(window, text='Lets Dechiphre!', bg='Dodger Blue', fg='White', width=19, command=(lambda: Dechipher(Entry_1.get())))
+    Button_Dechipher = tkinter.Button(window, text='Lets Dechiphre!', bg='Dodger Blue', fg='White', width=19, command=(lambda: Choose(var.get(),Entry_1.get(),'d')))
     Button_Dechipher.place(x=635, y=750)
 
     Button_Back = tkinter.Button(window,  text='Back',bg = 'Dodger Blue', fg = 'White',width=4, command = (lambda  :  Hide(Label_1,Entry_1,Button_Main,Button_Back,Button_Dechipher)))
