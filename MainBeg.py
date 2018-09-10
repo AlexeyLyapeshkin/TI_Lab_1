@@ -29,16 +29,16 @@ def MakeImage(path):
 def MakeMainWindow():
 
     var = tkinter.IntVar()
-    rbutton1 = tkinter.Radiobutton(Main_Window, text=b' RAILROAD HEDGE CHIPHER. ', variable=var, value=1)
+    rbutton1 = tkinter.Radiobutton(Main_Window, text=b' Rail Road Hedge. ', height=1, font='20', variable=var, value=1)
     rbutton1.place(x = 600, y = 600)
-    rbutton2 = tkinter.Radiobutton(Main_Window, text=u" ", variable=var, value=2)
+    rbutton2 = tkinter.Radiobutton(Main_Window, text=b' Chiffre de Vigenere. ',height=1, font='20', variable=var, value=2)
     rbutton2.place(x = 600, y = 650)
-    rbutton3 = tkinter.Radiobutton(Main_Window, text=u'3', variable=var, value=3)
+    rbutton3 = tkinter.Radiobutton(Main_Window, text=b' Playfair cipher. ',height=1, font='20' , variable=var, value=3)
     rbutton3.place(x = 600, y = 700)
 
 
     Button_Main = tkinter.Button(Main_Window, text='Lets go!',bg = 'Dodger Blue', fg = 'White', command = (lambda : NewWindow(Main_Window,rbutton3,rbutton2,rbutton1,label,Button_Main)))
-    Button_Main.place(x=730, y=750)
+    Button_Main.place(x=730, y=760)
 
     # Images
 
@@ -57,11 +57,12 @@ def MakeMainWindow():
 
 def NewWindow(window,rb3,rb2,rb1,img,butt):
 
-    def Hide(lbl1,ent1,buttm,buttb):
+    def Hide(lbl1,ent1,buttm,buttb,buttd):
         lbl1.place_forget()
         ent1.place_forget()
         buttm.place_forget()
         buttb.place_forget()
+        buttd.place_forget()
         MakeMainWindow()
 
 
@@ -77,24 +78,33 @@ def NewWindow(window,rb3,rb2,rb1,img,butt):
     # new
 
     Label_1 = tkinter.Label(window, text='Enter key here: ')
-    Label_1.place(x=20, y=20)
+    Label_1.place(x=700, y=600)
+
+
     Key = tkinter.IntVar()
     Entry_1 = tkinter.Entry(window, textvariable=Key)
     Entry_1.configure(width = 20)
-    Entry_1.place(x=20, y=60)
+    Entry_1.place(x=635, y=650)
+
     kek = Entry_1.get()
     print(kek)
-                                 
-    Button_Main = tkinter.Button(window, text='Lets chiphre!',bg = 'Dodger Blue', fg = 'White', command = (lambda : cipher(Entry_1.get())))
-    Button_Main.place(x=400, y=60)
+     # Buttons
+    Button_Main = tkinter.Button(window, text='Lets chiphre!',bg = 'Dodger Blue', fg = 'White', width = 14, command = (lambda : cipher(Entry_1.get())))
+    Button_Main.place(x=635, y=700)
     print('kek')
 
+    Button_Dechipher = tkinter.Button(window, text='Lets Dechiphre!', bg='Dodger Blue', fg='White', width=19, command=(lambda: Dechipher(Entry_1.get())))
+    Button_Dechipher.place(x=635, y=750)
 
+    Button_Back = tkinter.Button(window,  text='Back',bg = 'Dodger Blue', fg = 'White',width=4, command = (lambda  :  Hide(Label_1,Entry_1,Button_Main,Button_Back,Button_Dechipher)))
+    Button_Back.place(x=890, y=700)
 
-    Button_Back = tkinter.Button(window,  text='Back',bg = 'Dodger Blue', fg = 'White', command = (lambda  :  Hide(Label_1,Entry_1,Button_Main,Button_Back)))
-    Button_Back.place(x=900, y=700)
-
-
+    path = "/home/alexey/Документы/kek2.png"
+    im = PIL.Image.open(path)
+    photo = PIL.ImageTk.PhotoImage(im)
+    label = tkinter.Label(Main_Window, image=photo, width=320, height=320)
+    label.image = photo  # keep a reference!
+    label.place(x=650, y=280)
 
 
 

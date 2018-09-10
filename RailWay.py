@@ -10,40 +10,47 @@ class RailRoadHedge():
 
     def Encode(self, key, E_text):
 
+        key = int(key)
+
+
         # initializtion
-        key_rez = key
-        key_check = key
-        flag = True
-        i = 0
-        k = 0
-        encodemessage = ''
-        while key_rez != 0:
-            while k < len(E_text):
+        if key == 0 or key == 1:
+            print('Roflanebalo')
+            return E_text
+        else:
+            key_rez = key
+            key_check = key
+            flag = True
+            #i = 0
+            k = 0
+            encodemessage = ''
+            while key_rez != 0:
+                while k < len(E_text):
 
-                if key_rez == key_check:
-                    encodemessage += E_text[k]
+                    if key_rez == key_check:
+                        encodemessage += E_text[k]
 
-                if key_check == 1:
-                    flag = False
+                    if key_check == 1:
+                        flag = False
 
-                if key_check == key:
-                    flag = True
+                    if key_check == key:
+                        flag = True
 
-                if flag == True:
-                    key_check = key_check - 1
-                else:
-                    key_check = key_check + 1
+                    if flag == True:
+                        key_check = key_check - 1
+                    else:
+                        key_check = key_check + 1
 
                 # print('key_rez = ',key_rez,'key_check = ',key_check,'encode = ',encodemessage)
                 # a = input()
 
-                k += 1
-            key_rez -= 1
-            key_check = key_rez
-            k = key - key_rez
+                    k += 1
+                key_rez -= 1
+                key_check = key_rez
+                k = key - key_rez
 
-        print(encodemessage)
-        return encodemessage
+            print(encodemessage)
+            return encodemessage
 
     def Decode(self, key, D_text):
 
@@ -58,6 +65,8 @@ class RailRoadHedge():
                 return (size - 1 - row) * 2
 
             return 2 * row
+
+        key = int(key)
 
         if key < 0:
             print("Error")
