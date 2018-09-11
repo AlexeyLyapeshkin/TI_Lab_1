@@ -48,7 +48,7 @@ class Vigenere():
             i += 1
         for indx, plain in enumerate(ciphertext):
 
-            deciphered += alph[(alph.index(plain) - alph.index(key[indx]) + 32) % 33]
+            deciphered += alph[(alph.index(plain) - alph.index(key[indx]) + 33) % 33]
 
 
         return deciphered

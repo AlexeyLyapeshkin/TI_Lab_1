@@ -4,6 +4,9 @@ import PIL.Image
 import PIL.ImageTk
 from Vigenere import Vigenere
 from RailWay import RailRoadHedge
+from Playfair import Playfair
+
+
 
 
 def cipherRail(key):
@@ -34,7 +37,10 @@ def dechipherVig(key):
     text = Files.ReadFromFile()
     Files.WriteInFile(kek.decrypt(key, kek.NormilizeText(text)))
 
-
+def PlayfairDE(mode):
+    kek = Playfair()
+    text = Files.ReadFromFile()
+    Files.WriteInFile(kek.encryptDecrypt(mode,kek.NormilizeText(text)))
 
 def MakeImage(path):
 
@@ -62,7 +68,7 @@ def MakeMainWindow():
 
     # Images
 
-    path = "/home/alexey/Документы/kek2.png"
+    path = "img/kek2.png"
     im = PIL.Image.open(path)
     photo = PIL.ImageTk.PhotoImage(im)
     label = tkinter.Label(Main_Window, image=photo, width=320, height=320)
@@ -81,8 +87,8 @@ def Choose(count, entry, m):
         cipherVig(entry)
     if count == 2 and m == 'd':
         dechipherVig(entry)
-    if count == 3:
-        return 0;
+    if count == 3 :
+        PlayfairDE(m)
 
 
 
@@ -98,7 +104,8 @@ def NewWindow(window,rb3,rb2,rb1,img,butt,var):
         buttd.place_forget()
         MakeMainWindow()
 
-    print(var.get())
+
+
 
     # clear window
     rb1.place_forget()
@@ -114,16 +121,21 @@ def NewWindow(window,rb3,rb2,rb1,img,butt,var):
 
 
     Key = tkinter.IntVar()
-    Entry_1 = tkinter.Entry(window, textvariable=Key)
+    Entry_1 = tkinter.Entry(window, textvariable='')
     Entry_1.configure(width = 20)
     Entry_1.place(x=635, y=650)
 
+    if int(var.get()) == 3:
+        Entry_1.place_forget()
+        Label_1.place_forget()
+
+
     kek = Entry_1.get()
-    print(kek)
+   # print(kek)
      # Buttons
     Button_Main = tkinter.Button(window, text='Lets chiphre!',bg = 'Dodger Blue', fg = 'White', width = 14, command = (lambda : Choose(var.get(),Entry_1.get(),'c')))
     Button_Main.place(x=635, y=700)
-    print('kek')
+    #print('kek')
 
     Button_Dechipher = tkinter.Button(window, text='Lets Dechiphre!', bg='Dodger Blue', fg='White', width=19, command=(lambda: Choose(var.get(),Entry_1.get(),'d')))
     Button_Dechipher.place(x=635, y=750)
@@ -131,7 +143,7 @@ def NewWindow(window,rb3,rb2,rb1,img,butt,var):
     Button_Back = tkinter.Button(window,  text='Back',bg = 'Dodger Blue', fg = 'White',width=4, command = (lambda  :  Hide(Label_1,Entry_1,Button_Main,Button_Back,Button_Dechipher)))
     Button_Back.place(x=890, y=700)
 
-    path = "/home/alexey/Документы/kek2.png"
+    path = "img/kek2.png"
     im = PIL.Image.open(path)
     photo = PIL.ImageTk.PhotoImage(im)
     label = tkinter.Label(Main_Window, image=photo, width=320, height=320)
@@ -145,6 +157,8 @@ def NewWindow(window,rb3,rb2,rb1,img,butt,var):
 Main_Window = tkinter.Tk()
 Main_Window.geometry('1600x1000')
 Main_Window.title('Easy chiphers')
+path = "@kek2.xbm"
+Main_Window.iconbitmap(path)
 
 # RadioButtons
 
