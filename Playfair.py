@@ -5,6 +5,8 @@ import re
 class Playfair():
 
     def NormilizeText(self, text):
+
+
         text = text.upper()
         text = text.replace(' ', '')
         return ''.join(c for c in text if c in string.ascii_letters)
@@ -12,6 +14,7 @@ class Playfair():
     def encryptDecrypt(self, mode, message, final=""):
 
         addSymbol = 'X'
+        message = list(message)
 
         def regular(text):
             template = r"[A-Z]{2}"
@@ -76,4 +79,4 @@ class Playfair():
         return final
 
 
-#kek = Playfair(
+

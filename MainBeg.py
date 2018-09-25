@@ -5,6 +5,7 @@ import PIL.ImageTk
 from Vigenere import Vigenere
 from RailWay import RailRoadHedge
 from Playfair import Playfair
+from tkinter import messagebox as kek
 
 
 
@@ -76,16 +77,35 @@ def MakeMainWindow():
     label.place(x=650, y=280)
 
 
-def Choose(count, entry, m):
+def Choose(count, entry, m, window):
+
+    alph = set('абвгдеёжзийклмнопрстуфхцчшщъыьэюя')
+
+    def check(entry,window, count):
+        if entry.isdigit() == False and count == 1:
+            kek.showerror("Ошибка", "Должно быть введено число")
+            #entry.delete(0, len(entry))
+            return False
+        if count == 2:
+            print('kek')
+            kek1 = 0
+            for letter in entry:
+                if letter not in alph:
+                    kek1 += 1
+            if kek1 > 0 or entry == '':
+                kek.showerror("Ошибка", "Ключ должен быть на русском языке; так же ключ не должен быть пустым.")
+                #entry.delete(0,len(entry))
+                return False
+
     count = int(count)
 
-    if count == 1 and m == 'c':
+    if count == 1 and m == 'c' and check(entry,window, count) != False:
         cipherRail(entry)
-    if count == 1 and m == 'd':
+    if count == 1 and m == 'd' and check(entry,window, count) != False:
         DechipherRail(entry)
-    if count == 2 and m == 'c':
+    if count == 2 and m == 'c' and check(entry,window, count) != False:
         cipherVig(entry)
-    if count == 2 and m == 'd':
+    if count == 2 and m == 'd' and check(entry,window, count) != False:
         dechipherVig(entry)
     if count == 3 :
         PlayfairDE(m)
@@ -133,11 +153,11 @@ def NewWindow(window,rb3,rb2,rb1,img,butt,var):
     kek = Entry_1.get()
    # print(kek)
      # Buttons
-    Button_Main = tkinter.Button(window, text='Lets chiphre!',bg = 'Dodger Blue', fg = 'White', width = 14, command = (lambda : Choose(var.get(),Entry_1.get(),'c')))
+    Button_Main = tkinter.Button(window, text='Lets chiphre!',bg = 'Dodger Blue', fg = 'White', width = 14, command = (lambda : Choose(var.get(),Entry_1.get(),'c',window)))
     Button_Main.place(x=635, y=700)
     #print('kek')
 
-    Button_Dechipher = tkinter.Button(window, text='Lets Dechiphre!', bg='Dodger Blue', fg='White', width=19, command=(lambda: Choose(var.get(),Entry_1.get(),'d')))
+    Button_Dechipher = tkinter.Button(window, text='Lets Dechiphre!', bg='Dodger Blue', fg='White', width=19, command=(lambda: Choose(var.get(),Entry_1.get(),'d',window)))
     Button_Dechipher.place(x=635, y=750)
 
     Button_Back = tkinter.Button(window,  text='Back',bg = 'Dodger Blue', fg = 'White',width=4, command = (lambda  :  Hide(Label_1,Entry_1,Button_Main,Button_Back,Button_Dechipher)))
