@@ -26,9 +26,9 @@ class Vigenere():
         alph = 'абвгдеёжзийклмнопрстуфхцчшщъыьэюя'
         i = 0
         while len(key) <= len(plaintext):
-            key += alph[alph.index(key[i]) + 1]
+            key += alph[(alph.index(key[i]) + 1) % 33]
             i += 1
-
+        print(key)
 
         ciphered = ''
         for indx, chplain in enumerate(plaintext):
@@ -45,7 +45,7 @@ class Vigenere():
         deciphered = ''
         i = 0
         while len(key) <= len(ciphertext):
-            key += alph[alph.index(key[i]) + 1]
+            key += alph[(alph.index(key[i]) + 1) % 33]
             i += 1
         for indx, plain in enumerate(ciphertext):
 
