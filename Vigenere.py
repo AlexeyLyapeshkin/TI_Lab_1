@@ -32,7 +32,8 @@ class Vigenere():
 
         ciphered = ''
         for indx, chplain in enumerate(plaintext):
-            ciphered += alph[(alph.index(chplain)+alph.index(key[indx])) % 33]
+            #print(indx)
+            ciphered += alph[(alph.index(chplain)+alph.index(key[indx])) % 32]
            # print(ciphered)
           #  a = input()
 
@@ -48,7 +49,7 @@ class Vigenere():
             i += 1
         for indx, plain in enumerate(ciphertext):
 
-            deciphered += alph[(alph.index(plain) - alph.index(key[indx]) + 33) % 33]
+            deciphered += alph[(alph.index(plain) - alph.index(key[indx]) + 32) % 32]
 
 
         return deciphered

@@ -12,7 +12,7 @@ class Playfair():
         return ''.join(c for c in text if c in string.ascii_letters)
 
     def encryptDecrypt(self, mode, message, final=""):
-
+        kek = False
         addSymbol = 'X'
         message = list(message)
 
@@ -62,17 +62,32 @@ class Playfair():
             for indexString in range(len(matrixKey)):
 
                 if matrixKey[y0][x0] in matrixKey[indexString] and matrixKey[y1][x1] in matrixKey[indexString]:
-
-                    if mode == 'd':
+                    kek = True
+                    if mode == 'c':
                         x0 = x0 + 1 if x0 != 4 else 0
                         x1 = x1 + 1 if x1 != 4 else 0
                     else:
                         x0 = x0 - 1 if x0 != 0 else 4
                         x1 = x1 - 1 if x1 != 0 else 4
 
+            if x0 == x1:
+                if mode == 'c':
+                    y0 = y0 + 1 if y0 != 4 else 0
+                    y1 = y1 + 1 if y1 != 4 else 0
+                else:
+                    y0 = y0 - 1 if y0 != 0 else 4
+                    y1 = y1 - 1 if y1 != 0 else 4
+
             y0, y1 = y1, y0
-            binaryList[binary][0] = matrixKey[y0][x0]
-            binaryList[binary][1] = matrixKey[y1][x1]
+
+            if kek == True:
+                binaryList[binary][0] = matrixKey[y0][x0]
+                binaryList[binary][1] = matrixKey[y1][x1]
+                kek = False
+            else:
+                binaryList[binary][1] = matrixKey[y0][x0]
+                binaryList[binary][0] = matrixKey[y1][x1]
+
         for binary in range(len(binaryList)):
             for symbol in binaryList[binary]:
                 final += symbol
